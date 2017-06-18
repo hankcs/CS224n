@@ -99,3 +99,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+.idea/
+assignment1/utils/datasets/
