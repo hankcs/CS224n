@@ -115,3 +115,10 @@ assignment1/saved_params_40000.npy
 assignment1/saved_params_5000.npy
 assignment2/data/weights/
 assignment2/q2_test.predicted.pkl
+assignment3/q3-0-dynamics.png
+assignment3/q3-1-dynamics.png
+assignment3/q3-clip-gru.png
+assignment3/q3-clip-rnn.png
+assignment3/q3-noclip-gru.png
+assignment3/q3-noclip-rnn.png
+assignment3/results/
