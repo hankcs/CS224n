@@ -84,12 +84,12 @@ def minibatch_parse(sentences, model, batch_size):
 
     while len(unfinished_parse) > 0:
         minibatch = unfinished_parse[0:batch_size]
-        # perform transition and single step parser on the minibatch until it is emplty
+        # perform transition and single step parser on the minibatch until it is empty
         while len(minibatch) > 0:
             transitions = model.predict(minibatch)
             for index, action in enumerate(transitions):
                 minibatch[index].parse_step(action)
-            minibatch = [parse for parse in partial_parses if len(parse.stack) > 1 or len(parse.buffer) > 0]
+            minibatch = [parse for parse in minibatch if len(parse.stack) > 1 or len(parse.buffer) > 0]
 
         # move to the next batch
         unfinished_parse = unfinished_parse[batch_size:]
