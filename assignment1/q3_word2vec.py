@@ -118,14 +118,14 @@ def negSamplingCostAndGradient(predicted, target, outputVectors, dataset,
     cost = 0
     z = sigmoid(np.dot(outputVectors[target], predicted))
 
-    cost -= np.log(z)
+    cost += -np.log(z)
     grad[target] += predicted * (z - 1.0)
     gradPred += outputVectors[target] * (z - 1.0)
 
     for k in xrange(K):
         samp = dataset.sampleTokenIdx()
         z = sigmoid(np.dot(outputVectors[samp], predicted))
-        cost -= np.log(1.0 - z)
+        cost += np.log(z)
         grad[samp] += predicted * z
         gradPred += outputVectors[samp] * z
     ### END YOUR CODE
