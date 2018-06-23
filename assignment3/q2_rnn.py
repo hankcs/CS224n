@@ -296,9 +296,9 @@ class RNNModel(NERModel):
                 ### YOUR CODE HERE (~6-10 lines)
                 if time_step>0:
                     tf.get_variable_scope().reuse_variables()
-                _, state = cell( x[:,time_step, :], state, scope="RNN" )
-                state_dropout = tf.nn.dropout(state, dropout_rate)
-                output = tf.matmul(state_dropout,U) + b2
+                o, state = cell( x[:,time_step, :], state, scope="RNN" )
+                o_drop = tf.nn.dropout(o, dropout_rate)
+                output = tf.matmul(o_drop,U) + b2
                 preds.append(output)
                 ### END YOUR CODE
 
