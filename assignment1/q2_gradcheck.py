@@ -7,7 +7,8 @@ from __future__ import print_function
 import numpy as np
 import random
 
-#检测求导是否正确，
+
+# 检测求导是否正确，思路是对x进行上下微小变动，然后求y的差值比上x的差值，如果求得的导数值和给定的导数函数得到的值差距小于给定的误差，则认为导数正确
 # First implement a gradient checker by filling in the following functions
 def gradcheck_naive(f, x):
     """ Gradient check for a function f.
