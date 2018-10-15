@@ -36,11 +36,25 @@ def forward_backward_prop(data, labels, params, dimensions):
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
     ### YOUR CODE HERE: forward propagation
-    h = sigmoid(np.dot(data,W1) + b1)
-    yhat = softmax(np.dot(h,W2) + b2)
+    h = sigmoid(np.dot(data, W1) + b1)  # M * H
+    yhat = softmax(np.dot(h, W2) + b2)  # M * Dy
     ### END YOUR CODE
 
     ### YOUR CODE HERE: backward propagation
+    grad_cost1 = (yhat - labels) / data.shape[0]  # M * Dy, 最后一层，平均化
+    tmp = np.dot(grad_cost1, W2.T)  # M * H
+    grad_cost2 = sigmoid_grad(h) * tmp / data.shape[0]  # M * H， 隐含层，全部加和后的误差再平均化，标准梯度下降
+
+    cost = np.sum(-np.log(yhat[labels == 1])) / data.shape[0]
+
+    gradW2 = np.dot(h.T, grad_cost1)  # H * Dy
+    gradb2 = np.sum(grad_cost1, 0)  # 1 * Dy
+    gradW1 = np.dot(data.T, grad_cost2)  # Dx * H
+    gradb1 = np.sum(grad_cost2, 0)  # 1 * H
+
+    ### END YOUR CODE
+
+    ### STANDRED CODE
     cost = np.sum(-np.log(yhat[labels==1])) / data.shape[0]
 
     d3 = (yhat - labels) / data.shape[0]
@@ -52,7 +66,7 @@ def forward_backward_prop(data, labels, params, dimensions):
 
     gradW1 = np.dot(data.T,grad_h)
     gradb1 = np.sum(grad_h,0)
-    ### END YOUR CODE
+    ### END STANDRED CODE
 
     ### Stack gradients (do not modify)
     grad = np.concatenate((gradW1.flatten(), gradb1.flatten(),
@@ -66,13 +80,13 @@ def sanity_check():
     Set up fake data and parameters for the neural network, and test using
     gradcheck.
     """
-    print "Running sanity check..."
+    print("Running sanity check...")
 
     N = 20
     dimensions = [10, 5, 10]
     data = np.random.randn(N, dimensions[0])   # each row will be a datum
     labels = np.zeros((N, dimensions[2]))
-    for i in xrange(N):
+    for i in range(N):
         labels[i, random.randint(0,dimensions[2]-1)] = 1
 
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
@@ -89,7 +103,7 @@ def your_sanity_checks():
     This function will not be called by the autograder, nor will
     your additional tests be graded.
     """
-    print "Running your sanity checks..."
+    print("Running your sanity checks...")
     ### YOUR CODE HERE
     # raise NotImplementedError
     ### END YOUR CODE
